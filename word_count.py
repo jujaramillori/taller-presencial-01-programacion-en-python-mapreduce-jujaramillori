@@ -18,11 +18,11 @@ import fileinput
 import os.path
 
 def load_input(input_directory):
-    sequence = []
-    filenames = glob.glob(input_directory + "/*")
-    with fileinput.input(files=filenames) as f:
+    sequence=[]
+    filenames=glob.glob(input_directory + "/*")
+    with fileinput.input(files=filenames,encoding='utf+8') as f:
         for line in f:
-            sequence.append((fileinput.filename(), line))
+            sequence.append((fileinput.filename(),line))
     return sequence
 
 # filenames = load_input("input")
@@ -42,13 +42,13 @@ def load_input(input_directory):
 #   ]
 #
 def mapper(sequence):
-    new_sequence = []
-    for _, text in sequence:
-        words = text.split()
+    new_sequence=[]
+    for _,text in sequence:
+        words=text.split()
         for word in words:
-            word = word.replace(",", "")
-            word = word.replace(".", "")
-            word = word.lower()
+            word=word.replace(",","")
+            word=word.replace(".","")
+            word=word.lower()
             new_sequence.append((word,1))
     return new_sequence
 
@@ -69,8 +69,8 @@ def mapper(sequence):
 #   ]
 #
 def shuffle_and_sort(sequence):
-   sorted_sequence = sorted(sequence, key=lambda x: x[0])
-   return sorted_sequence
+    sorted_sequence = sorted(sequence,key=lambda x: x[0])
+    return sorted_sequence
 
 #sequence = load_input("input")
 #sequence= mapper(sequence)
@@ -85,20 +85,16 @@ def shuffle_and_sort(sequence):
 #
 
 def reducer(sequence):
-
-    diccionario = {}
+    dic = {}
     for key, value in sequence:
-        if key not in diccionario.keys():
-            diccionario[key] = []
-        diccionario[key].append(value)
-
-
-    new_sequence = []
-    for key, value in diccionario.items():
-        tupla = (key, sum(value))
-        new_sequence.append(tupla)
-
-    return new_sequence
+        if key not in dic.keys():
+            dic[key]=0
+        dic[key]+=value
+    reduced_list=[]
+    for key,values in dic.items():
+        tupla=(key,values)
+        reduced_list.append(tupla)
+    return reduced_list
 
 # sequence = load_input("input")
 # sequence = mapper(sequence)
@@ -109,11 +105,12 @@ def reducer(sequence):
 # Escriba la función create_ouptput_directory que recibe un nombre de directorio
 # y lo crea. Si el directorio existe, la función falla.
 #
-def create_ouptput_directory(output_directory):
+def create_output_directory(output_directory):
 
     if os.path.exists(output_directory):
-        raise FileExistsError(f"The directory '{output_directory}' already exists.")
-    os.makedirs(output_directory)
+        raise FileExistsError (f"El directorio '{output_directory}' ya existe")          
+    else:
+        os.makedirs(output_directory)
 
 #
 # Escriba la función save_output, la cual almacena en un archivo de texto llamado
@@ -124,6 +121,7 @@ def create_ouptput_directory(output_directory):
 # separados por un tabulador.
 #
 def save_output(output_directory, sequence):
+
     with open(output_directory + "/part-00000", "w") as file:
         for key, value in sequence:
             file.write(f"{key}\t{value}\n")
@@ -140,24 +138,20 @@ def save_output(output_directory, sequence):
 # entregado como parámetro.
 #
 def create_marker(output_directory):
-    with open(output_directory + "\_SUCCESS", "w") as file:
+    with open(output_directory + "/_SUCCESS", "w") as file:
         file.write("")
 #
 # Escriba la función job, la cual orquesta las funciones anteriores.
 #
 def job(input_directory, output_directory):
+    create_output_directory(output_directory)
     sequence = load_input(input_directory)
     sequence = mapper(sequence)
     sequence = shuffle_and_sort(sequence)
     sequence = reducer(sequence)
-    create_ouptput_directory(output_directory)
-    save_output(output_directory, sequence) 
+    save_output(output_directory, sequence)
     create_marker(output_directory)
     
-
- 
-
-
 
 if __name__ == "__main__":
     job(
