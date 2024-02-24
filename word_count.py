@@ -116,7 +116,6 @@ def create_ouptput_directory(output_directory):
         raise FileExistsError(f"The directory '{output_directory}' already exists.")
     os.makedirs(output_directory)
 
-
 #
 # Escriba la función save_output, la cual almacena en un archivo de texto llamado
 # part-00000 el resultado del reducer. El archivo debe ser guardado en el
@@ -156,7 +155,7 @@ def job(input_directory, output_directory):
     save_output(output_directory, sequence) 
     create_marker(output_directory)
     
-    
+
  
 
 
