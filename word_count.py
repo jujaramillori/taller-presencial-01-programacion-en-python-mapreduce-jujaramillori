@@ -106,6 +106,7 @@ def reducer(sequence):
 # sequence = reducer(sequence)
 # print(sequence)
 
+
 #
 # Escriba la función create_ouptput_directory que recibe un nombre de directorio
 # y lo crea. Si el directorio existe, la función falla.
