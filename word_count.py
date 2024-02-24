@@ -105,8 +105,6 @@ def reducer(sequence):
 # sequence = shuffle_and_sort(sequence)
 # sequence = reducer(sequence)
 # print(sequence)
-
-
 #
 # Escriba la función create_ouptput_directory que recibe un nombre de directorio
 # y lo crea. Si el directorio existe, la función falla.
@@ -158,6 +156,7 @@ def job(input_directory, output_directory):
     
 
  
+
 
 
 if __name__ == "__main__":
